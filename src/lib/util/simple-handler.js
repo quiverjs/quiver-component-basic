@@ -13,11 +13,11 @@ const convertHandler = (handler, inConvert, outConvert) =>
       handler(args, input).then(result =>
         outConvert(result)))
 
-const streamableToVoid = streamable => {
-  if(streamable.reusable) return resolve()
+const streamableToVoid = async function(streamable) {
+  if(streamable.reusable) return
 
-  return streamable.toStream().then(readStream =>
-    readStream.closeRead())
+  const readStream = await streamable.toStream()
+  await readStream.closeRead()
 }
 
 const voidToStreamable = () => resolve(emptyStreamable())
@@ -67,15 +67,18 @@ export const streamToSimpleHandler = createConverter(
   simpleToStreamTable, streamToSimpleTable)
 
 export const validateSimpleType = type => {
-  if(!type) {
+  if(!type)
     return new Error('simple type is not defined')
-  }
 
-  if(typeof(type) != 'string') {
+  if(typeof(type) != 'string')
     return new Error('simple type must be of type string')
-  }
 
-  if(!streamToSimpleTable[type]) {
+  if(!streamToSimpleTable[type])
     return new Error('invalid simple type ' + type)
-  }
 }
+
+export const simpleHandlerLoader = (inType, outType) =>
+  async function(...args) {
+    const handler = await loadStreamHandler(...args)
+    return streamToSimpleHandler(handler, inType, outType)
+  }

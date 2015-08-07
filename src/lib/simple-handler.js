@@ -1,12 +1,10 @@
 import { resolve } from 'quiver-util/promise'
 
 import {
-  simpleToStreamHandler,
-  streamToSimpleHandler,
-  validateSimpleType
+  simpleToStreamHandler, streamToSimpleHandler,
+  validateSimpleType, simpleHandlerLoader
 } from './util/simple-handler'
 
-import { simpleHandlerLoader } from 'quiver-component-util'
 import { StreamHandler, StreamHandlerBuilder } from './stream-handler'
 
 const $inType = Symbol('inputType')
@@ -62,12 +60,12 @@ export class SimpleHandlerBuilder extends StreamHandlerBuilder {
   }
 
   inputType(inType) {
-    setSimpleType(this, $inType, inType)
+    setSimpleType(this.rawSelf, $inType, inType)
     return this
   }
 
   outputType(outType) {
-    setSimpleType(this, $outType, outType)
+    setSimpleType(this.rawSelf, $outType, outType)
     return this
   }
 
