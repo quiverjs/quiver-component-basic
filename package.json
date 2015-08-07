@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",
+    "quiver-util": "~1.0.0",
     "quiver-stream-util": "~1.4.3",
-    "quiver-util": "quiverjs/quiver-util",
     "quiver-component-base": "quiverjs/quiver-component-base",
     "quiver-component-util": "quiverjs/quiver-component-util"
   },
