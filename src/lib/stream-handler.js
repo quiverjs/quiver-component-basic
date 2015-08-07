@@ -31,7 +31,7 @@ export class StreamHandler extends StreamHandlerBuilder {
     return config => resolve(handler)
   }
 
-  toStreamHandler() {
+  streamHandlerFn() {
     throw new Error('abstract method is not implemented')
   }
 

@@ -11,11 +11,11 @@ const simpleToHandleableFilter = (simpleFilter, handleableField) =>
     const newHandleable = copy(handleable)
     newHandleable[handleableField] = filteredHandler
 
-    return handleable
+    return newHandleable
   }
 
 export class StreamFilter extends HandleableFilter {
-  toHandleableFilter() {
+  handleableFilterFn() {
     return simpleToHandleableFilter(
       this.streamFilterFn(), 'streamHandler')
   }
@@ -30,7 +30,7 @@ export class StreamFilter extends HandleableFilter {
 }
 
 export class HttpFilter extends HandleableFilter {
-  toHandleableFilter() {
+  handleableFilterFn() {
     return simpleToHandleableFilter(
       this.httpFilterFn(), 'streamHandler')
   }
