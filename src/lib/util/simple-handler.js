@@ -68,13 +68,13 @@ export const streamToSimpleHandler = createConverter(
 
 export const validateSimpleType = type => {
   if(!type)
-    return new Error('simple type is not defined')
+    throw new Error('simple type is not defined')
 
   if(typeof(type) != 'string')
-    return new Error('simple type must be of type string')
+    throw new Error('simple type must be of type string')
 
   if(!streamToSimpleTable[type])
-    return new Error('invalid simple type ' + type)
+    throw new Error('invalid simple type ' + type)
 }
 
 export const simpleHandlerLoader = (inType, outType) =>

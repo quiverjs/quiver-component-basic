@@ -7,35 +7,30 @@ import {
 
 import { StreamHandler, StreamHandlerBuilder } from './stream-handler'
 
-const $inType = Symbol('inputType')
-const $outType = Symbol('outputType')
-
-const setSimpleType = (component, typeField, value) => {
-  if(component[typeField])
-    throw new Error('simple type is already defined as ' + component[typeField])
-
-  const err = validateSimpleType(value)
-  if(err) throw err
-
-  component[typeField] = value
-}
+const $inType = Symbol('@inputType')
+const $outType = Symbol('@outputType')
 
 export class SimpleHandlerBuilder extends StreamHandlerBuilder {
-  constructor(opts={}) {
-    super(opts)
+  constructor(options={}) {
+    const { inputType, outputType } = options
 
-    this[$inType] = null
-    this[$outType] = null
+    validateSimpleType(inputType)
+    validateSimpleType(outputType)
+
+    super(options)
+
+    this[$inType] = inputType
+    this[$outType] = outputType
   }
 
   streamHandlerBuilderFn() {
-    const [ inType, outType ] = this.inOutTypes()
+    const { inputType, outputType } = this
     const simpleHandlerBuilder = this.simpleHandlerBuilderFn()
 
     return config =>
       simpleHandlerBuilder(config)
       .then(simpleHandler =>
-        simpleToStreamHandler(simpleHandler, inType, outType))
+        simpleToStreamHandler(simpleHandler, inputType, outputType))
   }
 
   simpleHandlerBuilderFn() {
@@ -43,30 +38,16 @@ export class SimpleHandlerBuilder extends StreamHandlerBuilder {
   }
 
   defaultLoaderFn() {
-    const [ inType, outType ] = this.inOutTypes()
-    return simpleHandlerLoader(inType, outType)
+    const { inputType, outputType } = this
+    return simpleHandlerLoader(inputType, outputType)
   }
 
-  inOutTypes() {
-    const inType = this[$inType]
-    if(!inType)
-      throw new Error('input type is not yet defined')
-
-    const outType = this[$outType]
-    if(!outType)
-      throw new Error('output type is not yet defined')
-
-    return [inType, outType]
+  get inputType() {
+    return this[$inType]
   }
 
-  inputType(inType) {
-    setSimpleType(this.rawSelf, $inType, inType)
-    return this
-  }
-
-  outputType(outType) {
-    setSimpleType(this.rawSelf, $outType, outType)
-    return this
+  get outputType() {
+    return this[$outType]
   }
 
   get componentType() {
