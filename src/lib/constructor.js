@@ -1,7 +1,6 @@
 import {
   safeBuilder, safeHandler,
-  implComponentConstructor,
-  fluentComponentConstructor
+  implComponentConstructor
 } from 'quiver-component-util'
 
 import {
@@ -27,13 +26,11 @@ export const httpHandler = implComponentConstructor(
 export const httpHandlerBuilder = implComponentConstructor(
   HttpHandlerBuilder, 'httpHandlerBuilderFn', safeBuilder)
 
-export const simpleHandler = fluentComponentConstructor(
-  SimpleHandler, 'simpleHandlerFn', safeHandler,
-  ['inputType', 'outputType'])
+export const simpleHandler = implComponentConstructor(
+  SimpleHandler, 'simpleHandlerFn', safeHandler)
 
-export const simpleHandlerBuilder = fluentComponentConstructor(
-  SimpleHandlerBuilder, 'simpleHandlerBuilderFn', safeBuilder,
-  ['inputType', 'outputType'])
+export const simpleHandlerBuilder = implComponentConstructor(
+  SimpleHandlerBuilder, 'simpleHandlerBuilderFn', safeBuilder)
 
 export const streamHandler = implComponentConstructor(
   StreamHandler, 'streamHandlerFn', safeHandler)

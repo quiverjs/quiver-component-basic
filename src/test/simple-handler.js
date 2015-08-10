@@ -14,9 +14,10 @@ test('simple handler test', assert => {
     const component = simpleHandler((args, body) => {
       assert.equal(args.foo, 'bar')
       return body.toUpperCase()
+    }, {
+      inputType: 'text',
+      outputType: 'text'
     })
-    .inputType('text')
-    .outputType('text')
 
     assert.equal(component.inputType, 'text')
     assert.equal(component.outputType, 'text')
