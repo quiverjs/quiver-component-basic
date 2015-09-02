@@ -2,7 +2,7 @@ import test from 'tape'
 import { asyncTest } from 'quiver-util/tape'
 
 import {
-  streamableToText, textToStreamable, emptyStreamable
+  streamableToText, textToStreamable
 } from 'quiver-stream-util'
 
 import {

@@ -1,31 +1,27 @@
-import { copy } from 'quiver-util/object'
-
 import { HandleableMiddleware } from 'quiver-component-base'
+import {
+  safeHandler, implComponentConstructor
+} from 'quiver-component-util'
 
-const noCopy = config => config
-
-const filterToMiddleware = (filter, copyConfig) =>
-  (config, builder) =>
-    builder(copyConfig(config))
-    .then(handler => filter(config, handler))
+const filterToMiddleware = filter =>
+  async function(config, builder) {
+    const handler = await builder(config)
+    return filter(config, handler)
+  }
 
 export class HandleableFilter extends HandleableMiddleware {
   mainHandleableMiddlewareFn() {
-    const copyConfig = this.copyConfig ? copy : noCopy
-    const handleableFilter = this.handleableFilterFn()
-
-    return filterToMiddleware(handleableFilter, copyConfig)
+    return filterToMiddleware(this.handleableFilterFn())
   }
 
   handleableFilterFn() {
-    throw new Error('abstract method is not implemented')
-  }
-
-  get copyConfig() {
-    return true
+    throw new Error('abstract method handleableFilterFn() is not implemented')
   }
 
   get componentType() {
     return 'HandleableFilter'
   }
 }
+
+export const handleableFilter = implComponentConstructor(
+  HandleableFilter, 'handleableFilterFn', safeHandler)

@@ -1,10 +1,16 @@
 import { copy } from 'quiver-util/object'
+import { implComponentConstructor } from 'quiver-component-util'
+
 import { HandleableFilter } from './handleable-filter'
+import { safeHttpHandlerFn } from './http-handler'
+import { safeStreamHandlerFn } from './stream-handler'
 
 const simpleToHandleableFilter = (simpleFilter, handleableField) =>
   async function(config, handleable) {
     const handler = handleable[handleableField]
-    if(!handler) return resolve(handleable)
+
+    if(!handler) throw new TypeError(
+      'target handleable is not of type ' + handleableField)
 
     const filteredHandler = await simpleFilter(config, handler)
 
@@ -43,3 +49,23 @@ export class HttpFilter extends HandleableFilter {
     return 'HttpFilter'
   }
 }
+
+const safeStreamFilterFn = filter =>
+  async function(config, handler) {
+    const filteredHandler = await filter(copy(config), handler)
+
+    return safeStreamHandlerFn(filteredHandler)
+  }
+
+const safeHttpFilterFn = filter =>
+  async function(config, handler) {
+    const filteredHandler = await filter(copy(config), handler)
+
+    return safeHttpHandlerFn(filteredHandler)
+  }
+
+export const streamFilter = implComponentConstructor(
+  StreamFilter, 'streamFilterFn', safeStreamFilterFn)
+
+export const httpFilter = implComponentConstructor(
+  HttpFilter, 'httpFilterFn', safeHttpFilterFn)

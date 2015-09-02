@@ -1,17 +1,13 @@
+import { resolve } from 'quiver-util/promise'
+import { entries } from 'quiver-util/object'
+
+import { loadStreamHandler } from 'quiver-component-util'
+
 import {
   streamableToText, streamableToJson,
   textToStreamable, jsonToStreamable,
   streamToStreamable, emptyStreamable
 } from 'quiver-stream-util'
-
-import { error } from 'quiver-util/error'
-import { resolve, reject, safePromised } from 'quiver-util/promise'
-
-const convertHandler = (handler, inConvert, outConvert) =>
-  (args, input) =>
-    resolve(inConvert(input)).then(input =>
-      handler(args, input).then(result =>
-        outConvert(result)))
 
 const streamableToVoid = async function(streamable) {
   if(streamable.reusable) return
@@ -20,15 +16,19 @@ const streamableToVoid = async function(streamable) {
   await readStream.closeRead()
 }
 
-const voidToStreamable = () => resolve(emptyStreamable())
+const voidToStreamable = () =>
+  resolve(emptyStreamable())
 
-const streamableToStream = streamable => streamable.toStream()
+const streamableToStream = streamable =>
+  streamable.toStream()
 
-const streamableToStreamable = streamable => resolve(streamable)
+const streamableToStreamable = streamable =>
+  resolve(streamable)
 
-const htmlToStreamable = (text) => textToStreamable(text, 'text/html')
+const htmlToStreamable = (text) =>
+  textToStreamable(text, 'text/html')
 
-const streamToSimpleTable = {
+const streamToSimpleTable = new Map(entries({
   'void': streamableToVoid,
   'text': streamableToText,
   'string': streamableToText,
@@ -36,9 +36,9 @@ const streamToSimpleTable = {
   'json': streamableToJson,
   'stream': streamableToStream,
   'streamable': streamableToStreamable
-}
+}))
 
-const simpleToStreamTable = {
+const simpleToStreamTable = new Map(entries({
   'void': voidToStreamable,
   'text': textToStreamable,
   'string': textToStreamable,
@@ -46,24 +46,33 @@ const simpleToStreamTable = {
   'json': jsonToStreamable,
   'stream': streamToStreamable,
   'streamable': streamableToStreamable
-}
+}))
+
+const handlerConverter = (inConvert, outConvert) =>
+  handler =>
+    async function(args, inputStreamable) {
+      const input = await inConvert(inputStreamable)
+      const result = await handler(args, input)
+      const resultStreamable = await outConvert(result)
+
+      return resultStreamable
+    }
 
 const createConverter = (inTable, outTable) =>
-  (handler, inType, outType) =>  {
-    const inConvert = inTable[inType]
+  (inType, outType) =>  {
+    const inConvert = inTable.get(inType)
     if(!inConvert) throw new Error('invalid simple type ' + inType)
 
-    const outConvert = outTable[outType]
+    const outConvert = outTable.get(outType)
     if(!outConvert) throw new Error('invalid simple type ' + outType)
 
-    return convertHandler(safePromised(handler),
-      inConvert, outConvert)
+    return handlerConverter(inConvert, outConvert)
   }
 
-export const simpleToStreamHandler = createConverter(
+export const simpleToStreamHandlerConverter = createConverter(
   streamToSimpleTable, simpleToStreamTable)
 
-export const streamToSimpleHandler = createConverter(
+export const streamToSimpleHandlerConverter = createConverter(
   simpleToStreamTable, streamToSimpleTable)
 
 export const validateSimpleType = type => {
@@ -73,12 +82,16 @@ export const validateSimpleType = type => {
   if(typeof(type) != 'string')
     throw new Error('simple type must be of type string')
 
-  if(!streamToSimpleTable[type])
+  if(!streamToSimpleTable.get(type))
     throw new Error('invalid simple type ' + type)
 }
 
-export const simpleHandlerLoader = (inType, outType) =>
-  async function(...args) {
+export const simpleHandlerLoader = (inType, outType) => {
+  const streamToSimpleHandler = streamToSimpleHandlerConverter(
+    inType, outType)
+
+  return async function(...args) {
     const handler = await loadStreamHandler(...args)
-    return streamToSimpleHandler(handler, inType, outType)
+    return streamToSimpleHandler(handler)
   }
+}
