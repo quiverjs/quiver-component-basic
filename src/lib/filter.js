@@ -1,5 +1,5 @@
 import { copy } from 'quiver-util/object'
-import { implComponentConstructor } from 'quiver-component-util'
+import { componentConstructor } from 'quiver-component-base/util'
 
 import { HandleableFilter } from './handleable-filter'
 import { safeHttpHandlerFn } from './http-handler'
@@ -64,8 +64,8 @@ const safeHttpFilterFn = filter =>
     return safeHttpHandlerFn(filteredHandler)
   }
 
-export const streamFilter = implComponentConstructor(
+export const streamFilter = componentConstructor(
   StreamFilter, 'streamFilterFn', safeStreamFilterFn)
 
-export const httpFilter = implComponentConstructor(
+export const httpFilter = componentConstructor(
   HttpFilter, 'httpFilterFn', safeHttpFilterFn)

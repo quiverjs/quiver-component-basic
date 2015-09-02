@@ -1,7 +1,5 @@
 import { resolve } from 'quiver-util/promise'
-import {
-  safeHandler, safeBuilder, implComponentConstructor 
-} from 'quiver-component-util'
+import { componentConstructor } from 'quiver-component-base/util'
 
 import {
   simpleToStreamHandlerConverter,
@@ -9,6 +7,7 @@ import {
 } from './util/simple-handler'
 
 import { StreamHandlerBuilder } from './stream-handler'
+import { safeHandler, safeBuilder } from './util/wrapper'
 
 const $inType = Symbol('@inputType')
 const $outType = Symbol('@outputType')
@@ -81,8 +80,8 @@ export class SimpleHandler extends SimpleHandlerBuilder {
   }
 }
 
-export const simpleHandler = implComponentConstructor(
+export const simpleHandler = componentConstructor(
   SimpleHandler, 'simpleHandlerFn', safeHandler)
 
-export const simpleHandlerBuilder = implComponentConstructor(
+export const simpleHandlerBuilder = componentConstructor(
   SimpleHandlerBuilder, 'simpleHandlerBuilderFn', safeBuilder)

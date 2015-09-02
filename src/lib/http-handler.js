@@ -1,8 +1,8 @@
 import { assertFunction } from 'quiver-util/assert'
 import { HandleableBuilder } from 'quiver-component-base'
-import {
-  loadHttpHandler, implComponentConstructor
-} from 'quiver-component-util'
+import { componentConstructor } from 'quiver-component-base/util'
+
+import { loadHttpHandler } from './util/loader'
 
 export class HttpHandlerBuilder extends HandleableBuilder {
   mainHandleableBuilderFn() {
@@ -81,8 +81,8 @@ const safeHttpHandlerBuilderFn = builder => {
   }
 }
 
-export const httpHandler = implComponentConstructor(
+export const httpHandler = componentConstructor(
   HttpHandler, 'httpHandlerFn', safeHttpHandlerFn)
 
-export const httpHandlerBuilder = implComponentConstructor(
+export const httpHandlerBuilder = componentConstructor(
   HttpHandlerBuilder, 'httpHandlerBuilderFn', safeHttpHandlerBuilderFn)

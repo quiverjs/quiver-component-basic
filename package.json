@@ -4,26 +4,26 @@
     "email": "soares.chen@gmail.com",
     "url": "http://soareschen.com"
   },
-  "name": "quiver-component-simple",
+  "name": "quiver-component-basic",
   "desription": "Simple component types",
   "version": "1.0.0",
-  "homepage": "https://github.com/quiverjs/quiver-component-simple",
+  "homepage": "https://github.com/quiverjs/quiver-component-basic",
   "repository": {
-    "url": "git@github.com:quiverjs/quiver-component-simple.git"
+    "url": "git@github.com:quiverjs/quiver-component-basic.git"
   },
   "dependencies": {
-    "babel-runtime": "^5.8.20",
+    "immutable": "^3.7.4",
     "quiver-util": "~1.0.0",
+    "babel-runtime": "^5.8.20",
     "quiver-stream-util": "~1.4.3",
-    "quiver-component-base": "quiverjs/quiver-component-base",
-    "quiver-component-util": "quiverjs/quiver-component-util"
+    "quiver-component-base": "quiverjs/quiver-component-base"
   },
   "devDependencies": {
     "tape": "^4.0.1",
     "babel": "^5.8.20"
   },
   "bugs": {
-    "url": "https://github.com/quiverjs/quiver-component-simple/issues",
+    "url": "https://github.com/quiverjs/quiver-component-basic/issues",
     "email": "quiver@quiverjs.org"
   },
   "license": "ISC",

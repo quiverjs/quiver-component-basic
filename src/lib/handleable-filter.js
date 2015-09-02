@@ -1,7 +1,7 @@
 import { HandleableMiddleware } from 'quiver-component-base'
-import {
-  safeHandler, implComponentConstructor
-} from 'quiver-component-util'
+import { componentConstructor } from 'quiver-component-base/util'
+
+import { safeHandler } from './util/wrapper'
 
 const filterToMiddleware = filter =>
   async function(config, builder) {
@@ -23,5 +23,5 @@ export class HandleableFilter extends HandleableMiddleware {
   }
 }
 
-export const handleableFilter = implComponentConstructor(
+export const handleableFilter = componentConstructor(
   HandleableFilter, 'handleableFilterFn', safeHandler)

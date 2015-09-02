@@ -3,9 +3,9 @@ import { resolve } from 'quiver-util/promise'
 import { assertFunction } from 'quiver-util/assert'
 
 import { HandleableBuilder } from 'quiver-component-base'
-import {
-  loadStreamHandler, implComponentConstructor
-} from 'quiver-component-util'
+import { componentConstructor } from 'quiver-component-base/util'
+
+import { loadStreamHandler } from './util/loader'
 
 export class StreamHandlerBuilder extends HandleableBuilder {
   mainHandleableBuilderFn() {
@@ -87,9 +87,9 @@ const safeStreamHandlerBuilderFn = builder => {
   }
 }
 
-export const streamHandler = implComponentConstructor(
+export const streamHandler = componentConstructor(
   StreamHandler, 'streamHandlerFn', safeStreamHandlerFn)
 
-export const streamHandlerBuilder = implComponentConstructor(
+export const streamHandlerBuilder = componentConstructor(
   StreamHandlerBuilder, 'streamHandlerBuilderFn',
   safeStreamHandlerBuilderFn)

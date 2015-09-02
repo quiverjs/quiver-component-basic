@@ -1,13 +1,13 @@
 import { resolve } from 'quiver-util/promise'
 import { entries } from 'quiver-util/object'
 
-import { loadStreamHandler } from 'quiver-component-util'
-
 import {
   streamableToText, streamableToJson,
   textToStreamable, jsonToStreamable,
   streamToStreamable, emptyStreamable
 } from 'quiver-stream-util'
+
+import { loadStreamHandler } from './loader'
 
 const streamableToVoid = async function(streamable) {
   if(streamable.reusable) return
