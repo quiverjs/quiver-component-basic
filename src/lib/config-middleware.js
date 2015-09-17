@@ -1,13 +1,14 @@
 import { HandleableMiddleware } from 'quiver-component-base'
+import { assertConfig, componentConstructor } from 'quiver-component-base/util'
 
 const configHandlerToMiddleware = configHandler =>
   async function(config, builder) {
-    const newConfig = await configHandler(config) || config
+    const newConfig = await configHandler(config)
     return builder(newConfig)
   }
 
 export class ConfigMiddleware extends HandleableMiddleware {
-  mainHandleableBuilderFn() {
+  mainHandleableMiddlewareFn() {
     return configHandlerToMiddleware(this.configHandlerFn())
   }
 
@@ -19,3 +20,14 @@ export class ConfigMiddleware extends HandleableMiddleware {
     return 'ConfigMiddleware'
   }
 }
+
+const safeConfigMiddlewareFn = configHandler => {
+  return async function(config) {
+    const newConfig = await configHandler(config) || config
+    assertConfig(newConfig)
+    return newConfig
+  }
+}
+
+export const configMiddleware = componentConstructor(
+  ConfigMiddleware, 'configHandlerFn', safeConfigMiddlewareFn)

@@ -10,6 +10,7 @@ export const safeBuilder = (builder) => {
   assertFunction(builder)
 
   const wrappedBuilder = safePromised(builder)
-  return (...args) =>
-    wrappedBuilder(...args).then(safeHandler)
+  return function(...args) {
+    return wrappedBuilder(...args).then(safeHandler)
+  }
 }

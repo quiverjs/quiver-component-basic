@@ -35,5 +35,7 @@ test('simple handler test', assert => {
 
     const result = await streamableToText(resultStreamable)
     assert.equal(result, 'HELLO WORLD')
+
+    assert.end()
   })
 })

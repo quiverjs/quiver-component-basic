@@ -1,19 +1,11 @@
-export {
-  streamFilter, httpFilter
-} from './filter'
+export { configMiddleware } from './config-middleware'
 
-export {
-  streamHandler, streamHandlerBuilder
-} from './stream-handler'
+export { streamFilter, httpFilter } from './filter'
 
-export {
-  httpHandler, httpHandlerBuilder
-} from './http-handler'
+export { handleableFilter} from './handleable-filter'
 
-export {
-  simpleHandler, simpleHandlerBuilder
-} from './simple-handler'
+export { httpHandler, httpHandlerBuilder } from './http-handler'
 
-export {
-  HandleableFilter,
-} from './handleable-filter'
+export { simpleHandler, simpleHandlerBuilder } from './simple-handler'
+
+export { streamHandler, streamHandlerBuilder } from './stream-handler'

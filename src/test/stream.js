@@ -45,6 +45,7 @@ test('integrated stream handler test', assert => {
 
     assert.notOk(args.get('body'))
 
+    assert.end()
   })
 
   assert.end()

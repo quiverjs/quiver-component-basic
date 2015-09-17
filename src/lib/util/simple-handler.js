@@ -30,6 +30,7 @@ const htmlToStreamable = (text) =>
 
 const streamToSimpleTable = new Map(entries({
   'void': streamableToVoid,
+  'empty': streamableToVoid,
   'text': streamableToText,
   'string': streamableToText,
   'html': streamableToText,
@@ -40,6 +41,7 @@ const streamToSimpleTable = new Map(entries({
 
 const simpleToStreamTable = new Map(entries({
   'void': voidToStreamable,
+  'empty': voidToStreamable,
   'text': textToStreamable,
   'string': textToStreamable,
   'html': htmlToStreamable,

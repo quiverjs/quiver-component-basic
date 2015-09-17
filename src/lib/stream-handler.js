@@ -45,10 +45,6 @@ export class StreamHandler extends StreamHandlerBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  mainBuilderFnModifiesConfig(opts) {
-    return false
-  }
-
   get componentType() {
     return 'StreamHandler'
   }

@@ -1,2 +1,3 @@
-import './simple-handler'
+import './config'
+import './simple'
 import './stream'

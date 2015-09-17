@@ -10,7 +10,7 @@ const simpleToHandleableFilter = (simpleFilter, handlerField) =>
     const handler = handleable.get(handlerField)
 
     if(!handler) throw new TypeError(
-      `target handleable is not of type ${handleableField}`)
+      `target handleable is not of type ${handlerField}`)
 
     const filteredHandler = await simpleFilter(config, handler)
 
