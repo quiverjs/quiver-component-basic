@@ -5,19 +5,16 @@ import { HandleableFilter } from './handleable-filter'
 import { safeHttpHandlerFn } from './http-handler'
 import { safeStreamHandlerFn } from './stream-handler'
 
-const simpleToHandleableFilter = (simpleFilter, handleableField) =>
+const simpleToHandleableFilter = (simpleFilter, handlerField) =>
   async function(config, handleable) {
-    const handler = handleable[handleableField]
+    const handler = handleable.get(handlerField)
 
     if(!handler) throw new TypeError(
-      'target handleable is not of type ' + handleableField)
+      `target handleable is not of type ${handleableField}`)
 
     const filteredHandler = await simpleFilter(config, handler)
 
-    const newHandleable = copy(handleable)
-    newHandleable[handleableField] = filteredHandler
-
-    return newHandleable
+    return handleable.set(handlerField, filteredHandler)
   }
 
 export class StreamFilter extends HandleableFilter {

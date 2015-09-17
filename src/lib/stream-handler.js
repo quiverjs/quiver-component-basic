@@ -1,5 +1,6 @@
 import { copy } from 'quiver-util/object'
 import { resolve } from 'quiver-util/promise'
+import { ImmutableMap } from 'quiver-util/immutable'
 import { assertFunction } from 'quiver-util/assert'
 
 import { HandleableBuilder } from 'quiver-component-base'
@@ -12,8 +13,8 @@ export class StreamHandlerBuilder extends HandleableBuilder {
     const builder = this.streamHandlerBuilderFn()
 
     return config =>
-      builder(config)
-      .then(streamHandler => ({ streamHandler }))
+      builder(config).then(streamHandler =>
+        ImmutableMap().set('streamHandler', streamHandler))
   }
 
   streamHandlerBuilderFn() {
@@ -22,10 +23,6 @@ export class StreamHandlerBuilder extends HandleableBuilder {
 
   defaultLoaderFn() {
     return loadStreamHandler
-  }
-
-  streamHandlerFnModifiesArgs(opts) {
-    return true
   }
 
   get isStreamHandlerComponent() {

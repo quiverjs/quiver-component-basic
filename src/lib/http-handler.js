@@ -1,4 +1,5 @@
 import { assertFunction } from 'quiver-util/assert'
+import { ImmutableMap } from 'quiver-util/immutable'
 import { HandleableBuilder } from 'quiver-component-base'
 import { componentConstructor } from 'quiver-component-base/util'
 
@@ -9,8 +10,8 @@ export class HttpHandlerBuilder extends HandleableBuilder {
     const builder = this.httpHandlerBuilderFn()
 
     return config =>
-      builder(config)
-      .then(httpHandler => ({ httpHandler }))
+      builder(config).then(httpHandler =>
+        ImmutableMap().set('httpHandler', httpHandler))
   }
 
   toHttpHandlerBuilder() {

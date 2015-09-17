@@ -71,10 +71,6 @@ export class SimpleHandler extends SimpleHandlerBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  mainBuilderFnModifiesConfig(opts) {
-    return false
-  }
-
   get componentType() {
     return 'SimpleHandler'
   }
