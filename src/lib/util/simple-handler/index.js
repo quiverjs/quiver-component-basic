@@ -1,6 +1,5 @@
 export {
-  streamToSimpleHandlerConverter, streamToSimpleHandlerConverter
+  streamToSimpleHandlerConverter, simpleToStreamHandlerConverter
 } from './converter'
 
-export { simpleHandlerLoader } from './loader'
 export { validateSimpleType } from './validate'

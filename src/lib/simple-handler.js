@@ -8,7 +8,6 @@ import {
 
 import { StreamHandlerBuilder } from './stream-handler'
 import { simpleHandlerLoader } from './util/loader'
-import { safeHandler, safeBuilder } from './util/wrapper'
 
 const $inType = Symbol('@inputType')
 const $outType = Symbol('@outputType')

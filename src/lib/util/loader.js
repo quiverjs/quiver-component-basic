@@ -1,40 +1,7 @@
-import { assertConfig } from 'quiver-component-base/util'
 import { isImmutableMap } from 'quiver-util/immutable'
+import { loadHandleable } from 'quiver-component-base/util'
 
 import { streamToSimpleHandlerConverter } from './simple-handler'
-
-const $handlerMap = Symbol.for('@quiver.config.handlerMap')
-
-export const getHandlerMap = config => {
-  const global = config.get('global')
-  let handlerMap = global.get($handlerMap)
-
-  if(!handlerMap) {
-    handlerMap = new Map()
-    global.set($handlerMap, handlerMap)
-  }
-
-  return handlerMap
-}
-
-export const loadHandleable = async function(config, id, builder) {
-  const handlerMap = getHandlerMap(config)
-
-  if(handlerMap.has(id))
-    return handlerMap.get(id)
-
-  const handleable = await builder(config)
-
-  if(!handleable)
-    throw new TypeError('returned handleable is undefined')
-
-  if(!isImmutableMap(handleable))
-    throw new TypeError('returned handleable must be immutable map')
-
-  handlerMap.set(id, handleable)
-
-  return handleable
-}
 
 const safeInputStreamHandlerFn = streamHandler =>
   (args, streamable) => {
@@ -89,7 +56,6 @@ export const simpleHandlerLoader = (inType, outType) => {
 }
 
 export const loadHandler = async function(config, component) {
-  assertConfig(config)
   const loader = component.loaderFn()
   const builder = component.handleableBuilderFn()
 

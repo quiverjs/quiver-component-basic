@@ -1,7 +1,7 @@
+import { isImmutableMap } from 'quiver-util/immutable'
 import { HandleableMiddleware } from 'quiver-component-base'
 import { componentConstructor } from 'quiver-component-base/util'
 
-import { safeHandler } from './util/wrapper'
 
 const filterToMiddleware = filter =>
   async function(config, builder) {
@@ -23,5 +23,15 @@ export class HandleableFilter extends HandleableMiddleware {
   }
 }
 
+const safeHandleableFilter = filter =>
+  async function(config, handler) {
+    const handleable = await filter(config, handler)
+
+    if(!isImmutableMap(handleable))
+      throw new TypeError('returned handleable must be ImmutableMap')
+
+    return handleable
+  }
+
 export const handleableFilter = componentConstructor(
-  HandleableFilter, 'handleableFilterFn', safeHandler)
+  HandleableFilter, 'handleableFilterFn', safeHandleableFilter)
