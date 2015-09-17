@@ -21,7 +21,7 @@ export class StreamHandlerBuilder extends HandleableBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  defaultLoaderFn() {
+  loaderFn() {
     return loadStreamHandler
   }
 

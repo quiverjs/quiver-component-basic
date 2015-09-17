@@ -18,7 +18,7 @@ export class HttpHandlerBuilder extends HandleableBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  defaultLoaderFn() {
+  loaderFn() {
     return loadHttpHandler
   }
 

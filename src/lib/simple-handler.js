@@ -3,10 +3,11 @@ import { componentConstructor } from 'quiver-component-base/util'
 
 import {
   simpleToStreamHandlerConverter,
-  validateSimpleType, simpleHandlerLoader
+  validateSimpleType
 } from './util/simple-handler'
 
 import { StreamHandlerBuilder } from './stream-handler'
+import { simpleHandlerLoader } from './util/loader'
 import { safeHandler, safeBuilder } from './util/wrapper'
 
 const $inType = Symbol('@inputType')
@@ -41,7 +42,7 @@ export class SimpleHandlerBuilder extends StreamHandlerBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  defaultLoaderFn() {
+  loaderFn() {
     const { inputType, outputType } = this
     return simpleHandlerLoader(inputType, outputType)
   }
@@ -76,8 +77,10 @@ export class SimpleHandler extends SimpleHandlerBuilder {
   }
 }
 
+const noWrap = val => val
+
 export const simpleHandler = componentConstructor(
-  SimpleHandler, 'simpleHandlerFn', safeHandler)
+  SimpleHandler, 'simpleHandlerFn', noWrap)
 
 export const simpleHandlerBuilder = componentConstructor(
-  SimpleHandlerBuilder, 'simpleHandlerBuilderFn', safeBuilder)
+  SimpleHandlerBuilder, 'simpleHandlerBuilderFn', noWrap)
