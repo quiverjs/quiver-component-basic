@@ -6,7 +6,7 @@ import { assertFunction } from 'quiver-util/assert'
 import { HandleableBuilder } from 'quiver-component-base'
 import { componentConstructor } from 'quiver-component-base/util'
 
-import { loadStreamHandler } from './util/loader'
+import { streamHandlerLoader } from './util/loader'
 
 export class StreamHandlerBuilder extends HandleableBuilder {
   mainHandleableBuilderFn() {
@@ -22,7 +22,7 @@ export class StreamHandlerBuilder extends HandleableBuilder {
   }
 
   loaderFn() {
-    return loadStreamHandler
+    return streamHandlerLoader
   }
 
   get isStreamHandlerComponent() {

@@ -25,7 +25,7 @@ export const loadStreamHandler = async function(...args) {
 }
 
 export const safeInputHttpHandlerFn = httpHandler =>
-  (requestHead, requestStreamable) => {
+  async function(requestHead, requestStreamable) {
     if(!requestHead.isRequestHead)
       throw new TypeError('invalid requestHead')
 
@@ -45,20 +45,25 @@ export const loadHttpHandler = async function(...args) {
   return safeInputHttpHandlerFn(handler)
 }
 
+const safeInputSimpleHandlerFn = simpleHandler =>
+  async function(args, input) {
+    if(!isImmutableMap(args))
+      throw new TypeError('input args must be ImmutableMap')
+
+    return simpleHandler(args, input)
+  }
+
 export const simpleHandlerLoader = (inType, outType) => {
   const streamToSimpleHandler = streamToSimpleHandlerConverter(
     inType, outType)
 
   return async function(...args) {
-    const handler = await loadStreamHandler(...args)
-    return streamToSimpleHandler(handler)
+    const streamHandler = await loadStreamHandler(...args)
+    const simpleHandler = streamToSimpleHandler(streamHandler)
+
+    return safeInputSimpleHandlerFn(simpleHandler)
   }
 }
 
-export const loadHandler = async function(config, component) {
-  const loader = component.loaderFn()
-  const builder = component.handleableBuilderFn()
-
-  const handler = await loader(config, component.id, builder)
-  return handler
-}
+export const streamHandlerLoader = loadStreamHandler
+export const httpHandlerLoader = loadHttpHandler

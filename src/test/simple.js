@@ -1,19 +1,18 @@
 import test from 'tape'
 import { asyncTest } from 'quiver-util/tape'
 import { ImmutableMap } from 'quiver-util/immutable'
-import { createConfig } from 'quiver-component-base/util'
+import { createConfig, loadHandler } from 'quiver-component-base/util'
 
 import {
   streamableToText, textToStreamable
 } from 'quiver-stream-util'
 
-import {
-  simpleHandler
-} from '../lib/constructor'
+import { simpleHandler } from '../lib/constructor'
+import { streamHandlerLoader } from '../lib/util/loader'
 
 test('simple handler test', assert => {
   assert::asyncTest('basic simple handler', async function(assert) {
-    const component = simpleHandler((args, body) => {
+    const main = simpleHandler((args, body) => {
       assert.equal(args.get('foo'), 'bar')
       return body.toUpperCase()
     }, {
@@ -21,13 +20,11 @@ test('simple handler test', assert => {
       outputType: 'text'
     })
 
-    assert.equal(component.inputType, 'text')
-    assert.equal(component.outputType, 'text')
+    assert.equal(main.inputType, 'text')
+    assert.equal(main.outputType, 'text')
 
-    const builder = component.handleableBuilderFn()
-    const handleable = await builder(createConfig())
+    const handler = await loadHandler(createConfig(), main, streamHandlerLoader)
 
-    const handler = handleable.get('streamHandler')
     const args = ImmutableMap().set('foo', 'bar')
 
     const resultStreamable = await handler(

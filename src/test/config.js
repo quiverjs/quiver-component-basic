@@ -1,8 +1,8 @@
 import test from 'tape'
 import { asyncTest, rejected } from 'quiver-util/tape'
-import { createConfig } from 'quiver-component-base/util'
+import { createConfig, loadHandler } from 'quiver-component-base/util'
 
-import { createArgs, loadHandler } from '../lib/util'
+import { createArgs } from '../lib/util'
 import {
   configMiddleware, simpleHandler, simpleHandlerBuilder
 } from '../lib/constructor'

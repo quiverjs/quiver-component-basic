@@ -3,7 +3,7 @@ import { ImmutableMap } from 'quiver-util/immutable'
 import { HandleableBuilder } from 'quiver-component-base'
 import { componentConstructor } from 'quiver-component-base/util'
 
-import { loadHttpHandler } from './util/loader'
+import { httpHandlerLoader } from './util/loader'
 
 export class HttpHandlerBuilder extends HandleableBuilder {
   mainHandleableBuilderFn() {
@@ -19,7 +19,7 @@ export class HttpHandlerBuilder extends HandleableBuilder {
   }
 
   loaderFn() {
-    return loadHttpHandler
+    return httpHandlerLoader
   }
 
   get isHttpHandlerComponent() {
