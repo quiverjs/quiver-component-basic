@@ -23,7 +23,9 @@ test('simple handler test', assert => {
     assert.equal(main.inputType, 'text')
     assert.equal(main.outputType, 'text')
 
-    const handler = await loadHandler(createConfig(), main, streamHandlerLoader)
+    const handler = await loadHandler(createConfig(), main, {
+      loader: streamHandlerLoader
+    })
 
     const args = ImmutableMap().set('foo', 'bar')
 

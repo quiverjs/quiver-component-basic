@@ -41,7 +41,7 @@ export class SimpleHandlerBuilder extends StreamHandlerBuilder {
     throw new Error('abstract method is not implemented')
   }
 
-  loaderFn() {
+  get defaultLoader() {
     const { inputType, outputType } = this
     return simpleHandlerLoader(inputType, outputType)
   }
