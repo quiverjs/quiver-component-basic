@@ -6,7 +6,7 @@
   },
   "name": "quiver-component-basic",
   "desription": "Simple component types",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/quiverjs/quiver-component-basic",
   "repository": {
     "url": "git@github.com:quiverjs/quiver-component-basic.git"
@@ -33,6 +33,6 @@
     "prepublish": "make build"
   },
   "engines": {
-    "nodejs": "^4.0.0"
+    "node": "^4.0.0"
   }
 }

@@ -26,9 +26,9 @@ export const safeInputHttpHandlerFn = httpHandler =>
   }
 
 
-export const loadStreamHandler = async function(config, component, options={}) {
+export const loadStreamHandler = async function(config, id, builder, options={}) {
   const { safeWrap=true } = options
-  const handleable = await loadHandleable(config, component, options)
+  const handleable = await loadHandleable(config, id, builder, options)
 
   const handler = handleable.get('streamHandler')
   if(!handler)
@@ -39,9 +39,9 @@ export const loadStreamHandler = async function(config, component, options={}) {
   return safeInputStreamHandlerFn(handler)
 }
 
-export const loadHttpHandler = async function(config, component, options={}) {
+export const loadHttpHandler = async function(config, id, builder, options={}) {
   const { safeWrap=true } = options
-  const handleable = await loadHandleable(config, component, options)
+  const handleable = await loadHandleable(config, id, builder, options)
 
   const handler = handleable.get('httpHandler')
   if(!handler)
@@ -63,11 +63,11 @@ export const simpleHandlerLoader = (inType, outType) => {
   const streamToSimpleHandler = streamToSimpleHandlerConverter(
     inType, outType)
 
-  return async function(config, component, options={}) {
+  return async function(config, id, builder, options={}) {
     const { safeWrap=true } = options
     options.safeWrap = false
 
-    const streamHandler = await loadStreamHandler(config, component, options)
+    const streamHandler = await loadStreamHandler(config, id, builder, options)
     const handler = streamToSimpleHandler(streamHandler)
 
     if(!safeWrap) return handler
