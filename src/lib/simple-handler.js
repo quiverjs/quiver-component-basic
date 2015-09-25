@@ -21,8 +21,8 @@ export class SimpleHandlerBuilder extends StreamHandlerBuilder {
 
     super(options)
 
-    this[$inType] = inputType
-    this[$outType] = outputType
+    this.rawComponent[$inType] = inputType
+    this.rawComponent[$outType] = outputType
   }
 
   streamHandlerBuilderFn() {
