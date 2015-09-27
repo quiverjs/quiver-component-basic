@@ -6,7 +6,7 @@
   },
   "name": "quiver-component-basic",
   "desription": "Simple component types",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "homepage": "https://github.com/quiverjs/quiver-component-basic",
   "repository": {
     "url": "git@github.com:quiverjs/quiver-component-basic.git"
@@ -16,7 +16,7 @@
     "quiver-util": "~1.1.0",
     "babel-runtime": "^5.8.24",
     "quiver-stream-util": "~1.4.3",
-    "quiver-component-base": "~1.0.8"
+    "quiver-component-base": "~1.0.9"
   },
   "devDependencies": {
     "tape": "^4.0.1",
