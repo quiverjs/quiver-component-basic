@@ -1,10 +1,9 @@
-import { isImmutableMap } from 'quiver-util/immutable'
 import { loadHandleable } from 'quiver-component-base/util'
 
 import { assertArgs } from './args'
 import { streamToSimpleHandlerConverter } from './simple-handler'
 
-const safeInputStreamHandlerFn = streamHandler =>
+export const safeInputStreamHandlerFn = streamHandler =>
   (args, streamable) => {
     assertArgs(args)
 

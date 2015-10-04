@@ -9,3 +9,5 @@ export { HttpHandler, HttpHandlerBuilder } from './http-handler'
 export { SimpleHandler, SimpleHandlerBuilder } from './simple-handler'
 
 export { StreamHandler, StreamHandlerBuilder } from './stream-handler'
+
+export { StreamToHttpHandler } from './stream-to-http'
