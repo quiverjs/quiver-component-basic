@@ -30,7 +30,11 @@ export const streamToHttpHandler = (streamHandler) =>
   async function(requestHead, requestStreamable) {
     setStreamableMeta(requestHead, requestStreamable)
 
-    const args = requestHead.args
+    let args = requestHead.args
+    if(!args.has('path')) {
+      args = args.set('path', requestHead.pathname)
+    }
+
     const resultStreamable = await streamHandler(args, requestStreamable)
 
     let responseHead = requestHead.createResponseHead()
