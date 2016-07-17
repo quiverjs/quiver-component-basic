@@ -35,7 +35,7 @@ export class StreamFilter extends HandleableFilter {
 export class HttpFilter extends HandleableFilter {
   handleableFilterFn() {
     return simpleToHandleableFilter(
-      this.httpFilterFn(), 'streamHandler')
+      this.httpFilterFn(), 'httpHandler')
   }
 
   httpFilterFn() {
