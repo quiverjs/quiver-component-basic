@@ -1,7 +1,7 @@
 import test from 'tape'
 import { asyncTest } from 'quiver-util/tape'
 import { ImmutableMap } from 'quiver-util/immutable'
-import { createConfig } from 'quiver-component-base/util'
+import { Config } from 'quiver-component-base/util'
 
 import {
   streamableToText, textToStreamable, emptyStreamable
@@ -31,7 +31,7 @@ test('integrated stream handler test', assert => {
     .addMiddleware(bodyFilter)
 
     const builder = main.handleableBuilderFn()
-    const config = createConfig().set('foo', 'bar')
+    const config = Config().set('foo', 'bar')
     const handleable = await builder(config)
 
     const handler = handleable.get('streamHandler')

@@ -1,5 +1,6 @@
 export {
-  createArgs, assertArgs
+  createArgs, createArgs as Args,
+  assertArgs
 } from './args'
 
 export {

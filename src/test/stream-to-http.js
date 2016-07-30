@@ -1,7 +1,7 @@
 import test from 'tape'
 import { asyncTest } from 'quiver-util/tape'
 import { RequestHead } from 'quiver-http-head'
-import { createConfig, loadHandler } from 'quiver-component-base/util'
+import { Config, loadHandler } from 'quiver-component-base/util'
 
 import {
   streamableToText, buffersToStreamable
@@ -32,7 +32,7 @@ test::asyncTest('stream to http handler test', async function(assert) {
   })
 
   const wrapped = streamToHttpHandler(main)
-  const handler = await loadHandler(createConfig(), wrapped)
+  const handler = await loadHandler(Config(), wrapped)
 
   const requestHead = new RequestHead()
     .setPath('/')

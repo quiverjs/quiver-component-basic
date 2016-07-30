@@ -1,8 +1,8 @@
 import test from 'tape'
 import { asyncTest, rejected } from 'quiver-util/tape'
-import { createConfig, loadHandler } from 'quiver-component-base/util'
+import { Config, loadHandler } from 'quiver-component-base/util'
 
-import { createArgs } from '../lib/util'
+import { Args } from '../lib/util'
 import {
   configMiddleware, simpleHandler, simpleHandlerBuilder
 } from '../lib/constructor'
@@ -21,12 +21,12 @@ test('config middleware test', assert => {
     })
     .addMiddleware(middleware)
 
-    const config = createConfig()
+    const config = Config()
 
     const handler = await loadHandler(config, main)
     assert.notOk(config.get('foo'))
 
-    const result = await handler(createArgs())
+    const result = await handler(Args())
     assert.equal(result, 'hello world')
 
     assert.end()
@@ -44,7 +44,7 @@ test('config middleware test', assert => {
       })
     .addMiddleware(middleware)
 
-    await assert::rejected(loadHandler(createConfig(), main))
+    await assert::rejected(loadHandler(Config(), main))
 
     assert.end()
   })

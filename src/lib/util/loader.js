@@ -1,4 +1,4 @@
-import { loadHandleable } from 'quiver-component-base/util'
+import { handleableLoader } from 'quiver-component-base/util'
 
 import { assertArgs } from './args'
 import { streamToSimpleHandlerConverter } from './simple-handler'
@@ -25,9 +25,9 @@ export const safeInputHttpHandlerFn = httpHandler =>
   }
 
 
-export const loadStreamHandler = async function(config, id, builder, options={}) {
+export const streamHandlerLoader = async function(config, id, builder, options={}) {
   const { safeWrap=true } = options
-  const handleable = await loadHandleable(config, id, builder, options)
+  const handleable = await handleableLoader(config, id, builder, options)
 
   const handler = handleable.get('streamHandler')
   if(!handler)
@@ -38,9 +38,9 @@ export const loadStreamHandler = async function(config, id, builder, options={})
   return safeInputStreamHandlerFn(handler)
 }
 
-export const loadHttpHandler = async function(config, id, builder, options={}) {
+export const httpHandlerLoader = async function(config, id, builder, options={}) {
   const { safeWrap=true } = options
-  const handleable = await loadHandleable(config, id, builder, options)
+  const handleable = await handleableLoader(config, id, builder, options)
 
   const handler = handleable.get('httpHandler')
   if(!handler)
@@ -66,7 +66,7 @@ export const simpleHandlerLoader = (inType, outType) => {
     const { safeWrap=true } = options
     options.safeWrap = false
 
-    const streamHandler = await loadStreamHandler(config, id, builder, options)
+    const streamHandler = await streamHandlerLoader(config, id, builder, options)
     const handler = streamToSimpleHandler(streamHandler)
 
     if(!safeWrap) return handler
@@ -74,6 +74,3 @@ export const simpleHandlerLoader = (inType, outType) => {
     return safeInputSimpleHandlerFn(handler)
   }
 }
-
-export const streamHandlerLoader = loadStreamHandler
-export const httpHandlerLoader = loadHttpHandler

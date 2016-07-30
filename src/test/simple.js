@@ -1,7 +1,7 @@
 import test from 'tape'
 import { asyncTest } from 'quiver-util/tape'
 import { ImmutableMap } from 'quiver-util/immutable'
-import { createConfig, loadHandler } from 'quiver-component-base/util'
+import { Config, loadHandler } from 'quiver-component-base/util'
 
 import {
   streamableToText, textToStreamable
@@ -23,7 +23,7 @@ test('simple handler test', assert => {
     assert.equal(main.inputType, 'text')
     assert.equal(main.outputType, 'text')
 
-    const handler = await loadHandler(createConfig(), main, {
+    const handler = await loadHandler(Config(), main, {
       loader: streamHandlerLoader
     })
 
